@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: test-gig-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: test-gig-api
+    spec:
+      containers:
+        - name: test-gig-api
+          image: 569325332953.dkr.ecr.us-east-1.amazonaws.com/test-gig-api:__GIT_COMMIT_SHA__
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: test-gig-secrets
+            - configMapRef:
+                name: test-gig-configmap
+          ports:
+            - containerPort: 3000
